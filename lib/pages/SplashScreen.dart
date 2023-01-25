@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:notepad_hive/constrains/constrainss.dart';
+import 'package:notepad_hive/constants/constants.dart';
 import 'package:notepad_hive/pages/home.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -33,13 +33,13 @@ class _SplashScreenState extends State<SplashScreen> {
           children: [
             Text(
               'NOTEPAD',
-              style: largeBoldText,
+              style: largeText,
             ),
             SizedBox(
               height: 10,
             ),
             SizedBox(
-              width: 110,
+              width: 100,
               child: LinearProgressIndicator(),
             ),
           ],

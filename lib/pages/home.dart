@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:notepad_hive/constants/constants.dart';
 import 'package:notepad_hive/widgets/customButton.dart';
 import 'package:notepad_hive/widgets/dialog.dart';
 
@@ -22,7 +23,7 @@ class _HomeState extends State<Home> {
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         builder: (_) {
           return Padding(
             padding: MediaQuery.of(context).viewInsets,
@@ -31,11 +32,22 @@ class _HomeState extends State<Home> {
                 padding: EdgeInsets.all(16),
                 child: Column(
                   children: [
+                    Text(
+                      'EDIT NOTE',
+                      style: mediumText,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
                     TextField(
                       controller: _updateController,
                       decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(width: 3),
+                        ),
                         prefixIcon: Icon(Icons.menu_book_outlined),
-                        label: Text('EDIT NOTE'),
+                        hintText: 'Edit your note',
                       ),
                     ),
                     SizedBox(
