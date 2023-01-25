@@ -28,69 +28,86 @@ class _HomeState extends State<Home> {
           return Padding(
             padding: MediaQuery.of(context).viewInsets,
             child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.all(16),
-                child: Column(
-                  children: [
-                    Text(
-                      'EDIT NOTE',
-                      style: mediumText,
+              child: Stack(
+                alignment: AlignmentDirectional.topCenter,
+                clipBehavior: Clip.none,
+                children: [
+                  Positioned(
+                    top: -15,
+                    child: Container(
+                      height: 5,
+                      width: 120,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(5)),
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextField(
-                      controller: _updateController,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(width: 3),
+                  ),
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        Text(
+                          'EDIT NOTE',
+                          style: mediumText,
                         ),
-                        prefixIcon: Icon(Icons.menu_book_outlined),
-                        hintText: 'Edit your note',
-                      ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        TextField(
+                          controller: _updateController,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(8),
+                              borderSide: BorderSide(width: 3),
+                            ),
+                            prefixIcon: Icon(Icons.menu_book_outlined),
+                            hintText: 'Edit your note',
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        customButton(
+                          onClick: () {
+                            final updatedNote = _updateController.text;
+                            if (updatedNote.isEmpty) {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return alert(
+                                        title:
+                                            'Note is updating into an empty note! Proceed?',
+                                        onClickYes: () {
+                                          try {
+                                            notepad!.putAt(index, updatedNote);
+                                            _updateController.clear();
+                                            Navigator.pop(context);
+                                            EasyLoading.showSuccess('Updated');
+                                          } catch (e) {
+                                            Fluttertoast.showToast(
+                                                msg: e.toString());
+                                          }
+                                        },
+                                        onClickNo: () =>
+                                            Navigator.pop(context));
+                                  });
+                            } else {
+                              try {
+                                notepad!.putAt(index, updatedNote);
+                                _updateController.clear();
+                                Navigator.pop(context);
+                                EasyLoading.showSuccess('Updated');
+                              } catch (e) {
+                                Fluttertoast.showToast(msg: e.toString());
+                              }
+                            }
+                          },
+                          title: 'Update',
+                        ),
+                      ],
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    customButton(
-                      onClick: () {
-                        final updatedNote = _updateController.text;
-                        if (updatedNote.isEmpty) {
-                          showDialog(
-                              context: context,
-                              builder: (_) {
-                                return alert(
-                                    title:
-                                        'Note is updating into an empty note! Proceed?',
-                                    onClickYes: () {
-                                      try {
-                                        notepad!.putAt(index, updatedNote);
-                                        _updateController.clear();
-                                        Navigator.pop(context);
-                                        EasyLoading.showSuccess('Updated');
-                                      } catch (e) {
-                                        Fluttertoast.showToast(
-                                            msg: e.toString());
-                                      }
-                                    },
-                                    onClickNo: () => Navigator.pop(context));
-                              });
-                        } else {
-                          try {
-                            notepad!.putAt(index, updatedNote);
-                            _updateController.clear();
-                            Navigator.pop(context);
-                            EasyLoading.showSuccess('Updated');
-                          } catch (e) {
-                            Fluttertoast.showToast(msg: e.toString());
-                          }
-                        }
-                      },
-                      title: 'Update',
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           );
@@ -133,7 +150,7 @@ class _HomeState extends State<Home> {
                   decoration: InputDecoration(
                     prefixIcon: Icon(Icons.menu_book_outlined),
                     label: Text('ADD NOTE'),
-                    hintText: 'write your note',
+                    hintText: 'Write your note',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                       borderSide: BorderSide(width: 3),
